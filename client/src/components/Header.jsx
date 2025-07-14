@@ -1,7 +1,16 @@
 import '../styles/Header.css';
 import logo from '../assets/logo.png';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const isLoggedIn = !!localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
+    window.location.reload(); // Ensures UI updates immediately
+  };
   return (
     <header className="app-header">
       <div className="header-container">
@@ -21,8 +30,17 @@ const Header = () => {
         </nav>
         
         <div className="auth-buttons">
-          <button className="login-btn">Log In</button>
-          <button className="signup-btn">Sign Up</button>
+          {isLoggedIn ? (
+            <>
+              <button className="profile-btn" onClick={() => navigate('/dashboard')}>Profile</button>
+              <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+            </>
+          ) : (
+            <>
+              <button className="login-btn" onClick={()=>{navigate('/login')}}>Log In</button>
+              <button className="signup-btn" onClick={()=>{navigate('/signup')}}>Sign Up</button>
+            </>
+          )}
         </div>
       </div>
     </header>

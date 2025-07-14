@@ -1,0 +1,206 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+  
+  /* LEFT FORM SIDE */
+  .left-form-section {
+    flex: 1;
+    background-color: #ffffff;
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+  }
+  
+  .left-form-section h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #222;
+  }
+  
+  .login-subtext {
+    margin-bottom: 2rem;
+    color: #555;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  form input {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border 0.2s ease;
+  }
+  
+  form input:focus {
+    border-color: rgb(132, 140, 19);
+    background-color: #fff;
+    outline: none;
+  }
+  
+  form button {
+    margin-top: 1rem;
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(to right, rgb(132, 140, 19), rgb(86, 58, 13));
+    border: none;
+    color: #fff;
+    font-size: 1.05rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  form button:hover {
+    background: linear-gradient(to right, rgb(86, 58, 13), rgb(132, 140, 19));
+    transform: scale(1.02);
+  }
+  
+  .signup-link {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .signup-link a {
+    color: #6d4c00;
+    text-decoration: underline;
+  }
+  
+  /* RIGHT VIDEO SIDE */
+  .right-video-section {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+  
+  .video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  
+  .video-overlay {
+    position: relative;
+    z-index: 2;
+    color: white;
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+  }
+  
+  /* Floating emojis */
+  .floating-icons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .floating-icons span {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.3;
+    animation: float 10s linear infinite;
+  }
+  
+  .floating-icons span:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+  .floating-icons span:nth-child(2) { top: 60%; left: 25%; animation-delay: 2s; }
+  .floating-icons span:nth-child(3) { top: 40%; left: 60%; animation-delay: 4s; }
+  .floating-icons span:nth-child(4) { top: 20%; left: 85%; animation-delay: 6s; }
+  
+  @keyframes float {
+    0%   { transform: translateY(0) scale(1); opacity: 0.2; }
+    50%  { transform: translateY(-20px) scale(1.2); opacity: 0.5; }
+    100% { transform: translateY(0) scale(1); opacity: 0.2; }
+  }
+  
+  /* Glowing heading */
+  .video-overlay h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 0 0 5px #f9adc8, 0 0 10px #58ae84, 0 0 20px #84c040;
+    animation: glowPulse 2.5s infinite alternate;
+    margin-bottom: 1rem;
+  }
+  
+  @keyframes glowPulse {
+    0% {
+      text-shadow: 0 0 5px #f9adc8, 0 0 10px #58ae84, 0 0 20px #84c040;
+      transform: scale(1);
+    }
+    /* 100% {
+      text-shadow: 0 0 15px #f9adc8, 0 0 30px #58ae84, 0 0 50px #84c040;
+      transform: scale(1.05);
+    } */
+  }
+  
+  .tagline {
+    font-size: 1.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid #fff;
+    width: 0;
+    animation: typing 4s steps(30, end) forwards, blink 0.7s step-end infinite;
+    font-family: monospace;
+    margin-bottom: 2rem;
+  }
+  
+  @keyframes typing {
+    from { width: 0; }
+    to { width: 270px; }
+  }
+  
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+  
+  .video-overlay ul li {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: slideFadeIn 1s ease forwards;
+  }
+  
+  .video-overlay ul li:nth-child(1) { animation-delay: 0.3s; }
+  .video-overlay ul li:nth-child(2) { animation-delay: 0.6s; }
+  .video-overlay ul li:nth-child(3) { animation-delay: 0.9s; }
+  
+  @keyframes slideFadeIn {
+    0% {
+      transform: translateX(-30px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .footer-line {
+    margin-top: auto;
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+  

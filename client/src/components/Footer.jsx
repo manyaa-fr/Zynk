@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="app-footer">
       <div className="footer-container">
         <div className="footer-brand">
-          <div className="logo">EventFinder</div>
+          <div className="logo">Zynk</div>
           <p>Discover the best local events in your city</p>
           <div className="social-links">
             <a href="#"><FaFacebook /></a>
@@ -17,7 +17,7 @@ const Footer = () => {
         
         <div className="footer-links">
           <div className="link-group">
-            <h3>EventFinder</h3>
+            <h3>Zynk</h3>
             <a href="/about">About Us</a>
             <a href="/careers">Careers</a>
             <a href="/press">Press</a>
@@ -40,7 +40,7 @@ const Footer = () => {
       </div>
       
       <div className="footer-bottom">
-        <p>© 2023 EventFinder. All rights reserved.</p>
+        <p>© 2025 Zynk. All rights reserved.</p>
         <div className="legal-links">
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>

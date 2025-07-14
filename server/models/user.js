@@ -48,6 +48,9 @@ const UserSchema = new mongoose.Schema({
         default: ''
     },
 
+    imageUrl: String, // Keep for backward compatibility
+    imageUrls: [String], // New field for multiple images
+
     resetOTPexpires: {
         type: Number,
         default: 0
