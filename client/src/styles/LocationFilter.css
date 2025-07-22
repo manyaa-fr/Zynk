@@ -1,0 +1,31 @@
+.location-filter-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  color: rgb(255, 255, 255);
+}
+
+.location-filter-container label {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+.location-dropdown {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(249, 173, 200);
+  color: rgb(12, 95, 55);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.location-dropdown:hover,
+.location-dropdown:focus {
+  background-color: rgb(132, 140, 19);
+  color: rgb(255, 255, 255);
+  outline: none;
+}

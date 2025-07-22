@@ -6,6 +6,8 @@ import LandingPage from './pages/LandingPage.jsx';
 import SignupPage from './pages/signupPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import CreateEvent from './pages/CreateEvent.jsx';
+import OTPVerification from './components/OTPVerification.jsx';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path='/signup' element={<SignupPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/create' element={<CreateEvent />} />
+        <Route path='/OTP-verification' element={<OTPVerification />} />
       </Routes>
     </Router>
   );

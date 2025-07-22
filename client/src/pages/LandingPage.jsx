@@ -10,6 +10,10 @@ import { BsSuitHeart } from 'react-icons/bs';
 import { TbDeviceGamepad2 } from 'react-icons/tb';
 import { LuBriefcaseBusiness } from 'react-icons/lu';
 import { IoFastFoodOutline } from 'react-icons/io5';
+import trending from '../components/TrendingEvents';
+import LocationFilter from '../components/LocationFilter';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 const categories = [
@@ -24,6 +28,29 @@ const categories = [
 ];
 
 const LandingPage = () => {
+
+  const [events, setEvents] = useState([]);
+  const [location, setLocation] = useState('');
+
+  useEffect(() => {
+    const fetchFilteredEvents = async () => {
+      try {
+        const response = await axios.get('/events/all-events');
+        let allEvents = response.data;
+        if (location) {
+          allEvents = allEvents.filter(event => {
+            if (!event.location) return false;
+            return event.location.toLowerCase().includes(location.toLowerCase());
+          });
+        }
+        setEvents(allEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      }
+    };
+
+    fetchFilteredEvents();
+  }, [location]);
 
 
   return (
@@ -57,6 +84,18 @@ const LandingPage = () => {
           </div>
         ))}
       </div>
+    </div>
+    {trending()}
+
+    <div>
+      <LocationFilter onLocationSelect={setLocation} />
+      {/* Display your events here */}
+      {events.map((event, idx) => (
+        <div key={idx}>
+          <h3>{event.title}</h3>
+          <p>{event.location}</p>
+        </div>
+      ))}
     </div>
 
       </main>

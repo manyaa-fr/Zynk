@@ -1,0 +1,84 @@
+/* Base Section Styling */
+.trending-section {
+  padding: 60px 30px;
+  background: #f7f9fc;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Section Heading */
+.section-title {
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Grid for Trending Cards */
+.trending-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Each Trending Card */
+.trending-card {
+  position: relative;
+  background-color: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.trending-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Event Image */
+.event-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Rank Number */
+.rank-number {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: rgba(44, 62, 80, 0.85);
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 12px;
+  z-index: 1;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Event Textual Details */
+.event-details {
+  padding: 20px;
+}
+
+.event-details h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.event-details p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.views {
+  font-weight: 500;
+  color: #8e44ad;
+}

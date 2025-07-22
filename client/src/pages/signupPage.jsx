@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/SignupPage.css';
 import signupbg from '../assets/signupbg.mp4';
 import { useNavigate } from 'react-router-dom';
@@ -6,25 +6,32 @@ import axios from 'axios';
 
 const categoryOptions = [
   'music', 'sports', 'arts', 'food', 'technology',
-
   'business', 'social', 'fashion', 'cars',
   'concert', 'standups', 'magic', 'education', 'other'
 ];
 
 const SignupPage = () => {
+  // Removed sendOtpToEmail
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    country: '',
-    state: '',
-    city: '',
-    categories: [],
-    notificationRadius: 100,
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('signupForm');
+    return saved ? JSON.parse(saved) : {
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      country: '',
+      state: '',
+      city: '',
+      categories: [],
+      notificationRadius: 100,
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('signupForm', JSON.stringify(formData));
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,20 +49,18 @@ const SignupPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8080/auth/signup", formData);
-      if (response.status === 200 || response.status === 201){
-        alert("Signup Successful");
-        navigate('/');
+      if (response.data.success) {
+        alert("OTP sent to your email!");
+        localStorage.removeItem('signupForm');
+        navigate("/OTP-verification", { state: { email: formData.email } });
+      } else {
+        alert(response.data.message || "Signup failed");
       }
     } catch (error) {
-      if (error.response) {
-        alert(error.response.data.message || "Signup failed");
-      } else {
-        console.log("Signup error: ", error.message);
-        alert("Network error or server down.");
-      }
+      alert(error.response?.data?.message || "Signup failed");
     }
-    console.log(formData);
   };
+  
 
   
 

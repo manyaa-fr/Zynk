@@ -3,16 +3,15 @@ import '../styles/LoginPage.css';
 import signupbg from '../assets/signupbg.mp4';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import OtpInput from '../components/OtpInput';
 
 const LoginPage = () => {
-
-const navigate = useNavigate();
-
-  const [credentials, setCredentials] = useState({
-    email: '',
-    password: ''
-  });
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
+  const [showOtpLogin, setShowOtpLogin] = useState(false);
+  const [otpEmail, setOtpEmail] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpError, setOtpError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,13 +21,12 @@ const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(credentials);
       const response = await axios.post('http://localhost:8080/auth/login', credentials);
       if (response.status === 200){
         const { token } = response.data;
         localStorage.setItem("token", token);
         alert("Login Successful");
-        navigate('/');
+        navigate('/dashboard');
       }
     } catch (error) {
       if (error.response){
@@ -40,32 +38,95 @@ const navigate = useNavigate();
     }
   };
 
+  // OTP Login Handlers
+  const handleSendOtp = async () => {
+    setOtpError('');
+    try {
+      const res = await axios.post('http://localhost:8080/auth/login-otp-request', { email: otpEmail });
+      if (res.data.success) {
+        setOtpSent(true);
+      } else {
+        setOtpError(res.data.error || 'Failed to send OTP');
+      }
+    } catch (err) {
+      setOtpError(err.response?.data?.error || 'Failed to send OTP');
+    }
+  };
+
+  const handleOtpVerify = async (enteredOtp) => {
+    setOtpError('');
+    try {
+      const res = await axios.post('http://localhost:8080/auth/login-otp-verify', { email: otpEmail, otp: enteredOtp });
+      if (res.data.success && res.data.token) {
+        localStorage.setItem('token', res.data.token);
+        alert('Login Successful');
+        navigate('/dashboard');
+      } else {
+        setOtpError(res.data.error || 'Invalid OTP');
+      }
+    } catch (err) {
+      setOtpError(err.response?.data?.error || 'Invalid OTP');
+    }
+  };
+
   return (
     <div className="login-container">
       {/* LEFT FORM SIDE */}
       <div className="left-form-section">
         <h2>Welcome Back 👋</h2>
         <p className="login-subtext">Log in to continue discovering events on Zink</p>
-        <form onSubmit={handleSubmit}>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
-          <button type="submit">Login →</button>
-          <p className="signup-link">
-            New here? <a href="/signup">Create an account</a>
-          </p>
-        </form>
+        {!showOtpLogin ? (
+          <>
+            <form onSubmit={handleSubmit}>
+              <input
+                name="username"
+                type="text"
+                placeholder="Username"
+                onChange={handleChange}
+                required
+              />
+              <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                onChange={handleChange}
+                required
+              />
+              <button type="submit">Login →</button>
+              <p className="signup-link">
+                New here? <a href="/signup">Create an account</a>
+              </p>
+            </form>
+            <button className="otp-login-btn" style={{ marginTop: 16 }} onClick={() => setShowOtpLogin(true)}>
+              Login with OTP
+            </button>
+          </>
+        ) : (
+          <div className="otp-login-section">
+            {!otpSent ? (
+              <>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={otpEmail}
+                  onChange={e => setOtpEmail(e.target.value)}
+                  required
+                  style={{ marginBottom: 8, width: '100%' }}
+                />
+                <button onClick={handleSendOtp} style={{ width: '100%' }}>Send OTP</button>
+                <button onClick={() => setShowOtpLogin(false)} style={{ width: '100%', marginTop: 8 }}>Back to Password Login</button>
+                {otpError && <div className="error" style={{ marginTop: 8 }}>{otpError}</div>}
+              </>
+            ) : (
+              <>
+                <p>OTP sent to {otpEmail}</p>
+                <OtpInput length={4} onOtpSubmit={handleOtpVerify} />
+                <button onClick={() => { setOtpSent(false); setOtpEmail(''); }} style={{ width: '100%', marginTop: 8 }}>Resend/Change Email</button>
+                {otpError && <div className="error" style={{ marginTop: 8 }}>{otpError}</div>}
+              </>
+            )}
+          </div>
+        )}
       </div>
 
       {/* RIGHT VIDEO SIDE */}
