@@ -1,4 +1,3 @@
-const { address } = require('framer-motion/client');
 const mongoose = require ('mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -21,9 +20,11 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please provide an email'],
         unique: true,
         match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please provide a valid email'
-        ]
+            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/,
+            'Please provide a valid email'
+          ],
+        lowercase: true,
+        trim: true
     },
 
     password: {

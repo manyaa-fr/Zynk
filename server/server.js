@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes.js");
 const eventRoutes = require('./routes/eventRoutes.js');
+const {signupWithOtp, verifySignupOtp} = require('./controllers/otpVerification.js')
 
 const app = express();
 const PORT = process.env.PORT || 3000;

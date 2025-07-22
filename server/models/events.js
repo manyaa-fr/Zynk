@@ -10,6 +10,7 @@ const EventSchema = new mongoose.Schema({
   },
   category: String, // e.g., "Music", "Tech"
   date: Date,
+  imageUrl: String, // URL of the event image
 
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // who created the event
 

@@ -8,10 +8,11 @@ const {
   rsvpEvent,
   filterEvents
 } = require('../controllers/eventController.js');
+const upload = require('./cloudinary');
 
 const router = express.Router();
 
-router.post('/create', createEvent);
+router.post('/create', upload.single('image'), createEvent);
 router.get('/all-events', getAllEvents)
 router.get('/trending', getTrendingEvents);
 router.get('/:id', trackEventView); // Also returns event details

@@ -1,7 +1,6 @@
 const bcrypt = require ("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userModel = require ("../models/user");
-const { address } = require("framer-motion/client");
 
 const signup = async(req, res) => {
     const {name, username, country, state, city, email, password} = req.body;
@@ -11,7 +10,7 @@ const signup = async(req, res) => {
     }
 
     try {
-        const existingUser = await userModel.findOne({email});
+        const existingUser = await userModel.findOne({email: email.toLowerCase()});
 
         if (existingUser){
             return res.status(400).json({ success: false, message: "User already exists" });
@@ -23,7 +22,7 @@ const signup = async(req, res) => {
         const user = await userModel.create({
             name: req.body.name,
             username: req.body.username,
-            email: req.body.email,
+            email: req.body.email.toLowerCase(),
             password: hashedPassword,
             address: {
               country: req.body.country,
@@ -54,17 +53,17 @@ const signup = async(req, res) => {
 
 
 const login = async(req,res) => {
-    const {email, password} = req.body;
+    const {username, password} = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ success: false, message: "Email and Password are required"})
+    if (!username || !password) {
+        return res.status(400).json({ success: false, message: "Username and Password are required"})
     }
 
     try {
-        const user = await userModel.findOne({email});
+        const user = await userModel.findOne({username: username});
 
         if (!user){
-            return res.status(400).json({success: false, message: "Invalid Email"});
+            return res.status(400).json({success: false, message: "Invalid Username"});
         }
         const isMatch = await bcrypt.compare(password, user.password);
 
