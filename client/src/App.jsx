@@ -9,6 +9,7 @@ import CreateEvent from './pages/CreateEvent.jsx';
 import OTPVerification from './components/OTPVerification.jsx';
 import CategoryEvents from './pages/CategoryEvents.jsx';
 import EventDetails from './pages/EventDetails.jsx';
+import AboutUs from './pages/AboutUs.jsx';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/OTP-verification' element={<OTPVerification />} />
         <Route path='/category/:categoryName' element={<CategoryEvents />} />
         <Route path='/event/:eventId' element={<EventDetails />} />
+        <Route path='/about' element={<AboutUs />} />
       </Routes>
     </Router>
   );

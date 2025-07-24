@@ -6,11 +6,11 @@ const Header = () => {
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('token');
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-    window.location.reload(); // Ensures UI updates immediately
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   navigate('/');
+  //   window.location.reload(); // Ensures UI updates immediately
+  // };
   return (
     <header className="app-header">
       <div className="header-container">
@@ -33,7 +33,6 @@ const Header = () => {
           {isLoggedIn ? (
             <>
               <button className="signup-btn" onClick={() => navigate('/profile')}>Profile</button>
-              <button className="login-btn" onClick={handleLogout}>Log Out</button>
             </>
           ) : (
             <>

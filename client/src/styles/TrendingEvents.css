@@ -1,7 +1,7 @@
 :root {
   --te-card-width: 180px;
   --te-card-radius: 12px;
-  --te-bg: #18181b;
+  --te-bg: #f3f3f3;
   --te-btn-bg: #18181b;
   --te-btn-bg-hover: #4f46e5;
   --te-btn-text: #fff;
@@ -17,7 +17,7 @@
 .section-title {
   font-size: 2rem;
   font-weight: 800;
-  color: #fff;
+  color: #000000;
   margin: 0 0 24px 32px;
   letter-spacing: -0.5px;
 }
