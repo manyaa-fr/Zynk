@@ -26,14 +26,14 @@ const Header = () => {
         <nav className="nav-links">
           <a href="/create">Create Event</a>
           <a href="/about">About Us</a>
-          <a href="/tickets">My Tickets</a>
+          <a href="/saved">Saved Events</a>
         </nav>
         
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
-              <button className="profile-btn" onClick={() => navigate('/dashboard')}>Profile</button>
-              <button className="logout-btn" onClick={handleLogout}>Log Out</button>
+              <button className="signup-btn" onClick={() => navigate('/profile')}>Profile</button>
+              <button className="login-btn" onClick={handleLogout}>Log Out</button>
             </>
           ) : (
             <>

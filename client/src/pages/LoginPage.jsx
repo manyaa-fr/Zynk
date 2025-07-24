@@ -23,8 +23,11 @@ const LoginPage = () => {
     try {
       const response = await axios.post('http://localhost:8080/auth/login', credentials);
       if (response.status === 200){
-        const { token } = response.data;
+        const { token, message } = response.data;
         localStorage.setItem("token", token);
+        if (message && message._id) {
+          localStorage.setItem('user', JSON.stringify({ userId: message._id, username: message.username, email: message.email }));
+        }
         alert("Login Successful");
         navigate('/dashboard');
       }
@@ -53,14 +56,30 @@ const LoginPage = () => {
     }
   };
 
+  // Helper to decode JWT and get userId
+  function getUserIdFromToken(token) {
+    if (!token) return null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.id || payload._id || null;
+    } catch {
+      return null;
+    }
+  }
+
   const handleOtpVerify = async (enteredOtp) => {
     setOtpError('');
     try {
       const res = await axios.post('http://localhost:8080/auth/login-otp-verify', { email: otpEmail, otp: enteredOtp });
       if (res.data.success && res.data.token) {
         localStorage.setItem('token', res.data.token);
+        // Decode userId from token
+        const userId = getUserIdFromToken(res.data.token);
+        if (userId) {
+          localStorage.setItem('user', JSON.stringify({ userId }));
+        }
         alert('Login Successful');
-        navigate('/dashboard');
+        navigate('/');
       } else {
         setOtpError(res.data.error || 'Invalid OTP');
       }

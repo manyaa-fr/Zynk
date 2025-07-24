@@ -1,84 +1,145 @@
-/* Base Section Styling */
+:root {
+  --te-card-width: 180px;
+  --te-card-radius: 12px;
+  --te-bg: #18181b;
+  --te-btn-bg: #18181b;
+  --te-btn-bg-hover: #4f46e5;
+  --te-btn-text: #fff;
+}
+
 .trending-section {
-  padding: 60px 30px;
-  background: #f7f9fc;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  background: var(--te-bg);
+  padding: 48px 0 32px 0;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
-/* Section Heading */
 .section-title {
-  font-size: 2.4rem;
-  text-align: center;
-  margin-bottom: 40px;
-  color: #2c3e50;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 24px 32px;
+  letter-spacing: -0.5px;
 }
 
-/* Grid for Trending Cards */
 .trending-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  overflow-x: auto;
+  padding: 0 32px 8px 32px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.trending-grid::-webkit-scrollbar {
+  height: 10px;
+  background: #222;
+  border-radius: 8px;
+}
+.trending-grid::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 8px;
 }
 
-/* Each Trending Card */
 .trending-card {
   position: relative;
-  background-color: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  overflow: visible;
+  min-width: var(--te-card-width);
+  max-width: var(--te-card-width);
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 12px;
 }
 
-.trending-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-}
-
-/* Event Image */
-.event-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-/* Rank Number */
 .rank-number {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background-color: rgba(44, 62, 80, 0.85);
+  position: relative;
+  left: 0;
+  font-size: 110px;
+  font-weight: 900;
   color: #fff;
-  font-size: 2.2rem;
-  font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 12px;
+  opacity: 0.13;
+  line-height: 1;
   z-index: 1;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  font-family: 'Inter', 'Arial Black', Arial, sans-serif;
+  -webkit-text-stroke: 2px #000;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  user-select: none;
+  margin-right: -30px; /* overlap the image */
 }
 
-/* Event Textual Details */
-.event-details {
-  padding: 20px;
+.event-image-container {
+  position: relative;
+  width: 140px;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  border-radius: var(--te-card-radius);
+  overflow: hidden;
+  background: #222;
 }
 
-.event-details h3 {
-  font-size: 1.4rem;
-  margin-bottom: 10px;
-  color: #1a1a1a;
-  font-weight: 600;
+.trending-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--te-card-radius);
+  z-index: 2;
 }
 
-.event-details p {
-  margin: 6px 0;
+.trending-view-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  background: var(--te-btn-bg);
+  color: var(--te-btn-text);
   font-size: 0.95rem;
-  color: #555;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  outline: none;
+  z-index: 3;
 }
+.trending-view-btn:hover, .trending-view-btn:focus {
+  background: var(--te-btn-bg-hover);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.10);
+}
+/* .trending-view-btn:active {
+  transform: scale(0.98);
+} */
 
-.views {
-  font-weight: 500;
-  color: #8e44ad;
+@media (max-width: 600px) {
+  .trending-section {
+    padding: 32px 0 18px 0;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    margin: 0 0 16px 12px;
+  }
+  .trending-grid {
+    gap: 16px;
+    padding: 0 8px 8px 8px;
+  }
+  .trending-card {
+    min-width: 120px;
+    max-width: 160px;
+  }
+  .event-image-container {
+    width: 100px;
+    height: 140px;
+  }
+  .rank-number {
+    font-size: 60px;
+    margin-right: -18px;
+  }
 }

@@ -1,4 +1,5 @@
 const Event = require('../models/events.js');
+const User = require('../models/user');
 
 // CREATE EVENT
 const createEvent = async(req, res) => {
@@ -56,43 +57,31 @@ const getTrendingEvents = async(req, res) => {
 // BOOKMARK EVENTS
 const bookmarkEvent = async(req, res) => {
     try {
-        const {userId} = req.body;
+        const { userId } = req.body;
         const event = await Event.findById(req.params.id);
-        if (!event){
-            return res.status(404).json({error: 'Event not found'});
+        const user = await User.findById(userId);
+    
+        if (!event || !user) return res.status(404).json({ error: 'Event or User not found' });
+    
+        const alreadySaved = user.savedEvents.includes(event._id);
+    
+        if (alreadySaved) {
+          user.savedEvents = user.savedEvents.filter(id => id.toString() !== event._id.toString());
+          event.bookmarks = event.bookmarks.filter(id => id.toString() !== userId);
+        } else {
+          user.savedEvents.push(event._id);
+          event.bookmarks.push(userId);
         }
-        if (!event.bookmarks.includes(userId)){
-            event.bookmarks.push(userId);
-            await event.save();
-        }
-        res.json({success: true});
-    } catch (error) {
-        res.status(500).json({error: 'Server Error', message: error.message});
-    }
-}
-
-
-// RSVP EVENT
-const rsvpEvent = async(req, res) => {
-    try {
-        const {userId, status} = req.body;
-        const event = await Event.findById(req.params.id);
-        if (!event){
-            return res.status(404).json({error: 'Event not found'});
-        }
-        const existing = event.rsvps.find(r => r.userId.toString() === userId);
-        if (existing){
-            existing.status = status;
-        }
-        else{
-            event.rsvps.push({eventId, status});
-        }
+    
+        await user.save();
         await event.save();
-        res.json({success: true});
-    } catch (error) {
-        res.status(500).json({error: 'Server Error', message: error.message});
-    }
+    
+        res.json({ success: true, saved: !alreadySaved });
+      } catch (error) {
+        res.status(500).json({ error: 'Server Error', message: error.message });
+      }
 }
+
 
 // FILTER EVENTS
 const filterEvents = async(req, res) => {
@@ -157,12 +146,35 @@ const filterEvents = async(req, res) => {
     }
 }
 
+// TOGGLE INTERESTED
+const toggleInterested = async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const event = await Event.findById(req.params.id);
+    if (!event) return res.status(404).json({ error: 'Event not found' });
+    if (!userId) return res.status(400).json({ error: 'User ID required' });
+
+    const idx = event.interested.findIndex(id => id.toString() === userId);
+    if (idx > -1) {
+      // Remove user if already interested
+      event.interested.splice(idx, 1);
+    } else {
+      // Add user if not interested
+      event.interested.push(userId);
+    }
+    await event.save();
+    res.json({ success: true, message: event });
+  } catch (error) {
+    res.status(500).json({ error: 'Server Error', message: error.message });
+  }
+};
+
 module.exports = {
     createEvent,
     getAllEvents,
     trackEventView,
     getTrendingEvents,
     bookmarkEvent,
-    rsvpEvent,
-    filterEvents
+    filterEvents,
+    toggleInterested
 };

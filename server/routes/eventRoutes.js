@@ -5,8 +5,8 @@ const {
   trackEventView,
   getTrendingEvents,
   bookmarkEvent,
-  rsvpEvent,
-  filterEvents
+  filterEvents,
+  toggleInterested
 } = require('../controllers/eventController.js');
 const upload = require('./cloudinary');
 
@@ -17,7 +17,7 @@ router.get('/all-events', getAllEvents)
 router.get('/trending', getTrendingEvents);
 router.get('/:id', trackEventView); // Also returns event details
 router.post('/:id/bookmark', bookmarkEvent);
-router.post('/:id/rsvp', rsvpEvent);
+router.post('/:id/interested', toggleInterested);
 router.get('/search/filter', filterEvents);
 
 module.exports = router;

@@ -10,10 +10,11 @@ import { BsSuitHeart } from 'react-icons/bs';
 import { TbDeviceGamepad2 } from 'react-icons/tb';
 import { LuBriefcaseBusiness } from 'react-icons/lu';
 import { IoFastFoodOutline } from 'react-icons/io5';
-import trending from '../components/TrendingEvents';
+import TrendingEvents from '../components/TrendingEvents';
 import LocationFilter from '../components/LocationFilter';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const categories = [
@@ -31,26 +32,33 @@ const LandingPage = () => {
 
   const [events, setEvents] = useState([]);
   const [location, setLocation] = useState('');
+  const [category, setCategory] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchFilteredEvents = async () => {
+    const fetchEvents = async () => {
       try {
         const response = await axios.get('/events/all-events');
-        let allEvents = response.data;
-        if (location) {
-          allEvents = allEvents.filter(event => {
-            if (!event.location) return false;
-            return event.location.toLowerCase().includes(location.toLowerCase());
-          });
-        }
-        setEvents(allEvents);
+        setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);
       }
     };
+    fetchEvents();
+  }, []);
 
-    fetchFilteredEvents();
-  }, [location]);
+  // Filter events when location is selected
+  useEffect(() => {
+    if (!location) {
+      // setFilteredEvents(events); // This line is removed as per the edit hint
+    } else {
+      // setFilteredEvents( // This line is removed as per the edit hint
+      //   events.filter(event =>
+      //     event.location && event.location.toLowerCase().includes(location.toLowerCase())
+      //   )
+      // );
+    }
+  }, [location, events]);
 
 
   return (
@@ -78,24 +86,32 @@ const LandingPage = () => {
     <div className="categories-nav-container">
       <div className="categories-nav">
         {categories.map((category, index) => (
-          <div key={index} className="category-item">
+          <div
+            key={index}
+            className="category-item"
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/category/${encodeURIComponent(category.name)}`)}
+          >
             <span className="category-icon">{category.icon}</span>
             <span>{category.name}</span>
           </div>
         ))}
       </div>
     </div>
-    {trending()}
+    <TrendingEvents />
 
     <div>
-      <LocationFilter onLocationSelect={setLocation} />
+      <LocationFilter
+        events={events}
+        onLocationSelect={setLocation}
+        location={location}
+        category={category}
+        setLocation={setLocation}
+        setCategory={setCategory}
+        categories={categories}
+      />
       {/* Display your events here */}
-      {events.map((event, idx) => (
-        <div key={idx}>
-          <h3>{event.title}</h3>
-          <p>{event.location}</p>
-        </div>
-      ))}
+      {/* The event card rendering has been moved to LocationFilter */}
     </div>
 
       </main>

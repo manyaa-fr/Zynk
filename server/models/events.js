@@ -16,10 +16,7 @@ const EventSchema = new mongoose.Schema({
 
   viewCount: { type: Number, default: 0 }, // simpler than array of timestamps
   bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // who bookmarked
-  rsvps: [{ 
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    status: { type: String, enum: ['yes', 'interested'], default: 'yes' }
-  }],
+  interested: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], // who is interested
 
   createdAt: { type: Date, default: Date.now }
 });

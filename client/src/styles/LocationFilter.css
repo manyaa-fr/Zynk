@@ -1,31 +1,88 @@
+
 .location-filter-container {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  margin: 20px;
+  max-width: 1300px;
+  margin: 2rem auto;
+  padding: 0 1rem;
   font-family: 'Segoe UI', sans-serif;
-  color: rgb(255, 255, 255);
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-top: 3rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
 }
 
-.location-filter-container label {
-  margin-bottom: 8px;
-  font-size: 18px;
+.location-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: block;
+  color: #333;
 }
 
 .location-dropdown {
-  padding: 10px 15px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background-color: rgb(249, 173, 200);
-  color: rgb(12, 95, 55);
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: border 0.3s ease;
 }
 
-.location-dropdown:hover,
 .location-dropdown:focus {
-  background-color: rgb(132, 140, 19);
-  color: rgb(255, 255, 255);
-  outline: none;
+  border-color: #2563eb;
+}
+
+/* Suggestions dropdown handled inline in component */
+
+/* Event list styling similar to Eventbrite */
+.event-list {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Event card */
+.event-card {
+  background-color: #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+.event-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+.event-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.3rem 0;
+}
+
+/* Category button area handled inline */
+
+@media (max-width: 600px) {
+  .location-filter-container {
+    padding: 0 0.5rem;
+  }
+
+  .event-list {
+    grid-template-columns: 1fr;
+  }
 }
