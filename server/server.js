@@ -19,7 +19,7 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'https://zynk-d1b9.onrender.com/',
+    origin: 'https://zynk-r6qpeffrt-manyas-projects-0623e789.vercel.app/',
     credentials: true
 }));
 
