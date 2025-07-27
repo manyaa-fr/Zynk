@@ -1,14 +1,12 @@
 
 .location-filter-container {
-  max-width: 1300px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem;
   font-family: 'Segoe UI', sans-serif;
   background-color: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  margin-top: 3rem;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  /* Removed border-radius, box-shadow, and max-width to eliminate floating effect */
 }
 
 .location-label {

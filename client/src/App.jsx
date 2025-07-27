@@ -10,8 +10,12 @@ import OTPVerification from './components/OTPVerification.jsx';
 import CategoryEvents from './pages/CategoryEvents.jsx';
 import EventDetails from './pages/EventDetails.jsx';
 import AboutUs from './pages/AboutUs.jsx';
+import SavedEvents from './pages/SavedEvents.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
+import Contact from './pages/Contact.jsx';
 
 function App() {
+  
   return (
     <Router>
       <Routes>
@@ -23,6 +27,9 @@ function App() {
         <Route path='/category/:categoryName' element={<CategoryEvents />} />
         <Route path='/event/:eventId' element={<EventDetails />} />
         <Route path='/about' element={<AboutUs />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/profile' element={<ProfilePage />} />
+        <Route path='/saved' element={<SavedEvents />} />
       </Routes>
     </Router>
   );

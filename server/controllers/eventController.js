@@ -169,6 +169,31 @@ const toggleInterested = async (req, res) => {
   }
 };
 
+// GET SAVED EVENTS FOR USER
+const getSavedEvents = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+
+    const user = await User.findById(userId).populate('savedEvents');
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Get the saved events with full event details
+    const savedEvents = await Event.find({ _id: { $in: user.savedEvents } })
+      .sort({ date: 1 });
+
+    res.json(savedEvents);
+  } catch (error) {
+    res.status(500).json({ error: 'Server Error', message: error.message });
+  }
+};
+
 module.exports = {
     createEvent,
     getAllEvents,
@@ -176,5 +201,6 @@ module.exports = {
     getTrendingEvents,
     bookmarkEvent,
     filterEvents,
-    toggleInterested
+    toggleInterested,
+    getSavedEvents
 };

@@ -29,7 +29,7 @@ const LoginPage = () => {
           localStorage.setItem('user', JSON.stringify({ userId: message._id, username: message.username, email: message.email }));
         }
         alert("Login Successful");
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (error) {
       if (error.response){

@@ -1,6 +1,6 @@
 import '../styles/Header.css';
 import logo from '../assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -24,9 +24,10 @@ const Header = () => {
         </div>
         
         <nav className="nav-links">
-          <a href="/create">Create Event</a>
-          <a href="/about">About Us</a>
-          <a href="/saved">Saved Events</a>
+          <Link to="/create">Create Event</Link>
+          <Link to="/about">About Us</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/saved">Saved Events</Link>
         </nav>
         
         <div className="auth-buttons">

@@ -1,4 +1,5 @@
 import '../styles/Footer.css';
+import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
@@ -34,7 +35,7 @@ const Footer = () => {
             <h3>Support</h3>
             <a href="/help">Help Center</a>
             <a href="/community">Community</a>
-            <a href="/contact">Contact Us</a>
+            <Link to="/contact">Contact</Link>
           </div>
         </div>
       </div>
