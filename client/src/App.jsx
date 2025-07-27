@@ -3,7 +3,7 @@ import './App.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import LandingPage from './pages/LandingPage.jsx';
-import SignupPage from './pages/SignupPage.jsx';
+// import SignupPage from './pages/SignupPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import OTPVerification from './components/OTPVerification.jsx';
@@ -20,7 +20,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/signup' element={<SignupPage />} />
+        {/* <Route path='/signup' element={<SignupPage />} /> */}
         <Route path='/login' element={<LoginPage />} />
         <Route path='/create' element={<CreateEvent />} />
         <Route path='/OTP-verification' element={<OTPVerification />} />
