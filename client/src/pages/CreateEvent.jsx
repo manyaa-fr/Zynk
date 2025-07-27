@@ -51,7 +51,7 @@ const CreateEvent = () => {
       formData.append('address[state]', form.state);
       formData.append('address[city]', form.city);
       if (image) formData.append('image', image);
-      await axios.post('http://localhost:8080/events/create', formData, {
+              await axios.post('/events/create', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       });

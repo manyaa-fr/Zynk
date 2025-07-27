@@ -21,7 +21,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/login', credentials);
+      const response = await axios.post('/auth/login', credentials);
       if (response.status === 200){
         const { token, message } = response.data;
         localStorage.setItem("token", token);
@@ -45,7 +45,7 @@ const LoginPage = () => {
   const handleSendOtp = async () => {
     setOtpError('');
     try {
-      const res = await axios.post('http://localhost:8080/auth/login-otp-request', { email: otpEmail });
+      const res = await axios.post('/auth/login-otp-request', { email: otpEmail });
       if (res.data.success) {
         setOtpSent(true);
       } else {
@@ -70,7 +70,7 @@ const LoginPage = () => {
   const handleOtpVerify = async (enteredOtp) => {
     setOtpError('');
     try {
-      const res = await axios.post('http://localhost:8080/auth/login-otp-verify', { email: otpEmail, otp: enteredOtp });
+      const res = await axios.post('/auth/login-otp-verify', { email: otpEmail, otp: enteredOtp });
       if (res.data.success && res.data.token) {
         localStorage.setItem('token', res.data.token);
         // Decode userId from token

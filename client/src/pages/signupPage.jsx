@@ -48,7 +48,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/auth/signup", formData);
+      const response = await axios.post("/auth/signup", formData);
       if (response.data.success) {
         alert("OTP sent to your email!");
         localStorage.removeItem('signupForm');

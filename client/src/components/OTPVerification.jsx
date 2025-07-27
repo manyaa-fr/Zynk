@@ -10,7 +10,7 @@ const OTPVerification = () => {
 
     const onOtpSubmit = async (enteredOtp) => {
         try {
-            const res = await fetch("http://localhost:8080/auth/verify-otp", {
+            const res = await fetch("/auth/verify-otp", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, otp: enteredOtp }),

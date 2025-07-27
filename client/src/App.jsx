@@ -2,17 +2,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import LandingPage from './pages/LandingPage.jsx';
-import SignupPage from './pages/SignupPage.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import CreateEvent from './pages/CreateEvent.jsx';
-import OTPVerification from './components/OTPVerification.jsx';
-import CategoryEvents from './pages/CategoryEvents.jsx';
-import EventDetails from './pages/EventDetails.jsx';
-import AboutUs from './pages/AboutUs.jsx';
-import SavedEvents from './pages/SavedEvents.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
-import Contact from './pages/Contact.jsx';
+import LandingPage from './pages/LandingPage';
+import SignupPage from './pages/SignupPage';
+import LoginPage from './pages/LoginPage';
+import CreateEvent from './pages/CreateEvent';
+import OTPVerification from './components/OTPVerification';
+import CategoryEvents from './pages/CategoryEvents';
+import EventDetails from './pages/EventDetails';
+import AboutUs from './pages/AboutUs';
+import SavedEvents from './pages/SavedEvents';
+import ProfilePage from './pages/ProfilePage';
+import Contact from './pages/Contact';
 
 function App() {
   
