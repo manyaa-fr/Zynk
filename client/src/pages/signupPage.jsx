@@ -11,7 +11,6 @@ const categoryOptions = [
 ];
 
 const SignupPage = () => {
-  // Removed sendOtpToEmail
   const navigate = useNavigate();
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('signupForm');
@@ -60,24 +59,19 @@ const SignupPage = () => {
       alert(error.response?.data?.message || "Signup failed");
     }
   };
-  
-
-  
 
   return (
     <div className="signup-container">
-      {/* LEFT SIDE */}
       <div className="left-video-section">
         <video autoPlay loop muted className="video-bg">
           <source src={signupbg} type="video/mp4" />
         </video>
         <div className="floating-icons">
-    <span>🎉</span>
-    <span>🎤</span>
-    <span>🍔</span>
-    <span>🎨</span>
-  </div>
-
+          <span>🎉</span>
+          <span>🎤</span>
+          <span>🍔</span>
+          <span>🎨</span>
+        </div>
         <div className="video-overlay">
           <h1>Zink</h1>
           <p className="tagline">Sync with the city.</p>
@@ -90,7 +84,6 @@ const SignupPage = () => {
         </div>
       </div>
 
-      {/* RIGHT SIDE */}
       <div className="right-form-section">
         <h2>Join Zink</h2>
         <form onSubmit={handleSubmit}>
@@ -123,7 +116,7 @@ const SignupPage = () => {
           <button type="submit">Create Account →</button>
 
           <p className="login">
-          Already have an account?  <a href="/login">Sign in here</a>
+            Already have an account? <a href="/login">Sign in here</a>
           </p>
         </form>
       </div>
@@ -131,4 +124,4 @@ const SignupPage = () => {
   );
 };
 
-export default SignupPage;
+export default SignupPage; 
