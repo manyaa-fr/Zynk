@@ -19,7 +19,7 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'https://zynk-r6qpeffrt-manyas-projects-0623e789.vercel.app/',
+    origin: 'https://zynk-self.vercel.app/',
     credentials: true
 }));
 
@@ -30,7 +30,7 @@ app.use('/users', userRoutes);
 app.use('/contact', contactRoutes);
 
 // Debug route to test if server is running
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Server is running!' });
 });
 
