@@ -4,6 +4,8 @@ import signupbg from '../assets/signupbg.mp4';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE_URL = 'https://zynk-d1b9.onrender.com';
+
 const categoryOptions = [
   'music', 'sports', 'arts', 'food', 'technology',
   'business', 'social', 'fashion', 'cars',
@@ -47,7 +49,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/auth/signup", formData);
+      const response = await axios.post(`${API_BASE_URL}/auth/signup`, formData);
       if (response.data.success) {
         alert("OTP sent to your email!");
         localStorage.removeItem('signupForm');

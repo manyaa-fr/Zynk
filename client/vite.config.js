@@ -12,10 +12,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/events': 'http://localhost:8080',
-      '/users': 'http://localhost:8080',
-      '/auth': 'http://localhost:8080',
-      '/contact': 'http://localhost:8080'
+      '/events': 'https://zynk-d1b9.onrender.com',
+      '/users': 'https://zynk-d1b9.onrender.com',
+      '/auth': 'https://zynk-d1b9.onrender.com',
+      '/contact': 'https://zynk-d1b9.onrender.com'
     }
   },
   build: {
