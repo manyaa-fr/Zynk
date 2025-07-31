@@ -19,12 +19,12 @@ const createEvent = async(req, res) => {
 // GET ALL EVENTS
 const getAllEvents = async(req, res) => {
     try {
-        const event = await Event.find().sort({ date: 1 });
-        if (!event){
-            return res.status(404).json({error: 'Event not found'});
-        }
-        res.status(200).json(event);
+        console.log('Fetching all events...');
+        const events = await Event.find().sort({ date: 1 });
+        console.log('Found events:', events.length);
+        res.status(200).json(events);
     } catch (error) {
+        console.error('Error in getAllEvents:', error);
         res.status(500).json({error: 'Server Error', message: error.message});
     }
 }

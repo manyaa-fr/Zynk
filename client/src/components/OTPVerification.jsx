@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from './OtpInput';
 import '../styles/OTPVerification.css';
+import API_BASE_URL from '../config/api';
 
 const OTPVerification = () => {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ const OTPVerification = () => {
 
     const onOtpSubmit = async (enteredOtp) => {
         try {
-            const res = await fetch("/auth/verify-otp", {
+            const res = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ email, otp: enteredOtp }),

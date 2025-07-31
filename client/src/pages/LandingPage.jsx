@@ -15,6 +15,7 @@ import LocationFilter from '../components/LocationFilter';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config/api';
 
 
 const categories = [
@@ -38,9 +39,11 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/events/all-events');
+        const response = await axios.get(`${API_BASE_URL}/events/all-events`);
         setEvents(response.data);
+        console.log("its working");
       } catch (error) {
+        console.log("errorrrrrr")
         console.error('Error fetching events:', error);
       }
     };

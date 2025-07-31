@@ -4,6 +4,7 @@ import axios from 'axios';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import '../styles/LocationFilter.css';
 import '../styles/EventDetails.css';
+import API_BASE_URL from '../config/api';
 
 function getUserId() {
   // Try to decode from token first
@@ -43,7 +44,7 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await axios.get(`/events/${eventId}`);
+        const response = await axios.get(`${API_BASE_URL}/events/${eventId}`);
         if (response.data?.success && response.data.message) {
           setEvent(response.data.message);
           // Interested logic
@@ -65,7 +66,7 @@ const EventDetails = () => {
 
   const refetchEvent = async () => {
     try {
-      const res = await axios.get(`/events/${eventId}`);
+      const res = await axios.get(`${API_BASE_URL}/events/${eventId}`);
       if (res.data?.success && res.data.message) {
         setEvent(res.data.message);
         // Interested logic
@@ -81,7 +82,7 @@ const EventDetails = () => {
 
     setSaveLoading(true);
     try {
-      await axios.post(`/events/${eventId}/bookmark`, { userId });
+      await axios.post(`${API_BASE_URL}/events/${eventId}/bookmark`, { userId });
       refetchEvent();
     } catch (error) {
       alert('Failed to save event.');
@@ -94,7 +95,7 @@ const EventDetails = () => {
     if (!userId) return alert('Please log in to mark as interested.');
     setInterestedLoading(true);
     try {
-      await axios.post(`/events/${eventId}/interested`, { userId });
+      await axios.post(`${API_BASE_URL}/events/${eventId}/interested`, { userId });
       await refetchEvent();
     } catch (error) {
       alert('Failed to update interest.');

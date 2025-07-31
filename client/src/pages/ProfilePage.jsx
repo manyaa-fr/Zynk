@@ -7,6 +7,7 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/SavedEvents.css';
+import API_BASE_URL from '../config/api';
 
 // Function to get current user ID (similar to other components)
 function getUserId() {
@@ -78,10 +79,10 @@ const ProfilePage = () => {
 
         // Fetch all profile data in parallel
         const [profileRes, statsRes, activitiesRes, eventsRes] = await Promise.all([
-          axios.get(`/users/profile/${userId}`),
-          axios.get(`/users/stats/${userId}`),
-          axios.get(`/users/activities/${userId}`),
-          axios.get(`/users/events/${userId}`)
+          axios.get(`${API_BASE_URL}/users/profile/${userId}`),
+          axios.get(`${API_BASE_URL}/users/stats/${userId}`),
+          axios.get(`${API_BASE_URL}/users/activities/${userId}`),
+          axios.get(`${API_BASE_URL}/users/events/${userId}`)
         ]);
 
         // Set profile data
@@ -147,7 +148,7 @@ const ProfilePage = () => {
   const handleLogout = async () => {
     try {
       // Call logout endpoint if you have one
-      await axios.post('/auth/logout');
+      await axios.post(`${API_BASE_URL}/auth/logout`);
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
