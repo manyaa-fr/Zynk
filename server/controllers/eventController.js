@@ -25,7 +25,13 @@ const getAllEvents = async(req, res) => {
         res.status(200).json(events);
     } catch (error) {
         console.error('Error in getAllEvents:', error);
-        res.status(500).json({error: 'Server Error', message: error.message});
+        // If it's a database connection error, return empty array
+        if (error.name === 'MongooseServerSelectionError' || error.message.includes('ECONNREFUSED')) {
+            console.log('Database not connected, returning empty events array');
+            res.status(200).json([]);
+        } else {
+            res.status(500).json({error: 'Server Error', message: error.message});
+        }
     }
 }
 
@@ -50,7 +56,13 @@ const getTrendingEvents = async(req, res) => {
         const trendingEvents = await Event.find().sort({viewCount: -1}).limit(10);
         res.json(trendingEvents);
     } catch (error) {
-        res.status(500).json({error: 'Server Error', message: error.message});
+        // If it's a database connection error, return empty array
+        if (error.name === 'MongooseServerSelectionError' || error.message.includes('ECONNREFUSED')) {
+            console.log('Database not connected, returning empty trending events array');
+            res.status(200).json([]);
+        } else {
+            res.status(500).json({error: 'Server Error', message: error.message});
+        }
     }
 }
 

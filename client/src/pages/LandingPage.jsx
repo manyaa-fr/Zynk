@@ -13,9 +13,8 @@ import { IoFastFoodOutline } from 'react-icons/io5';
 import TrendingEvents from '../components/TrendingEvents';
 import LocationFilter from '../components/LocationFilter';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import apiClient from '../config/axios';
 import { useNavigate } from 'react-router-dom';
-import API_BASE_URL from '../config/api';
 
 
 const categories = [
@@ -39,7 +38,7 @@ const LandingPage = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/events/all-events`);
+        const response = await apiClient.get('/events/all-events');
         setEvents(response.data);
         console.log("its working");
       } catch (error) {

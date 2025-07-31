@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import apiClient from '../config/axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/TrendingEvents.css';
-import API_BASE_URL from '../config/api';
 
 const TrendingEvents = () => {
   const [events, setEvents] = useState([]);
@@ -11,7 +10,7 @@ const TrendingEvents = () => {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/events/trending`);
+        const res = await apiClient.get('/events/trending');
         // If your API returns { events: [...] }, use res.data.events
         setEvents(Array.isArray(res.data) ? res.data : res.data.events || []);
       } catch (err) {
