@@ -19,13 +19,19 @@ const createEvent = async(req, res) => {
 // GET ALL EVENTS
 const getAllEvents = async(req, res) => {
     try {
-        const event = await Event.find().sort({ date: 1 });
-        if (!event){
-            return res.status(404).json({error: 'Event not found'});
-        }
-        res.status(200).json(event);
+        console.log('Fetching all events...');
+        const events = await Event.find().sort({ date: 1 });
+        console.log('Found events:', events.length);
+        res.status(200).json(events);
     } catch (error) {
-        res.status(500).json({error: 'Server Error', message: error.message});
+        console.error('Error in getAllEvents:', error);
+        // If it's a database connection error, return empty array
+        if (error.name === 'MongooseServerSelectionError' || error.message.includes('ECONNREFUSED')) {
+            console.log('Database not connected, returning empty events array');
+            res.status(200).json([]);
+        } else {
+            res.status(500).json({error: 'Server Error', message: error.message});
+        }
     }
 }
 
@@ -50,7 +56,13 @@ const getTrendingEvents = async(req, res) => {
         const trendingEvents = await Event.find().sort({viewCount: -1}).limit(10);
         res.json(trendingEvents);
     } catch (error) {
-        res.status(500).json({error: 'Server Error', message: error.message});
+        // If it's a database connection error, return empty array
+        if (error.name === 'MongooseServerSelectionError' || error.message.includes('ECONNREFUSED')) {
+            console.log('Database not connected, returning empty trending events array');
+            res.status(200).json([]);
+        } else {
+            res.status(500).json({error: 'Server Error', message: error.message});
+        }
     }
 }
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../styles/CreateEvent.css'; 
 import createEventBg from '../assets/create-event-form.mp4';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../config/api';
 
 
 const categories = [
@@ -51,7 +52,7 @@ const CreateEvent = () => {
       formData.append('address[state]', form.state);
       formData.append('address[city]', form.city);
       if (image) formData.append('image', image);
-              await axios.post('/events/create', formData, {
+              await axios.post(`${API_BASE_URL}/events/create`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
       });

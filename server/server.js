@@ -10,7 +10,7 @@ const contactRoutes = require('./routes/contactRoutes.js');
 const {signupWithOtp, verifySignupOtp} = require('./controllers/otpVerification.js')
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 // Connect to database
 connectDB();
@@ -20,7 +20,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
     origin: ['http://localhost:5173',
-        'https://zynk-self.vercel.app' ],
+        'https://zynk-self.vercel.app',
+        'https://eventproconnect.vercel.app' ],
     credentials: true
 }));
 

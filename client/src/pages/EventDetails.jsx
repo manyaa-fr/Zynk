@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/axios';
 import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import '../styles/LocationFilter.css';
 import '../styles/EventDetails.css';
@@ -43,7 +43,7 @@ const EventDetails = () => {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const response = await axios.get(`/events/${eventId}`);
+        const response = await apiClient.get(`/events/${eventId}`);
         if (response.data?.success && response.data.message) {
           setEvent(response.data.message);
           // Interested logic
@@ -65,7 +65,7 @@ const EventDetails = () => {
 
   const refetchEvent = async () => {
     try {
-      const res = await axios.get(`/events/${eventId}`);
+      const res = await apiClient.get(`/events/${eventId}`);
       if (res.data?.success && res.data.message) {
         setEvent(res.data.message);
         // Interested logic
@@ -73,7 +73,9 @@ const EventDetails = () => {
         setInterestedCount(interestedUsers.length);
         setInterested(interestedUsers.includes(userId));
       }
-    } catch {}
+    } catch (error) {
+      console.error('Error refetching event:', error);
+    }
   };
 
   const handleSave = async () => {
@@ -81,7 +83,7 @@ const EventDetails = () => {
 
     setSaveLoading(true);
     try {
-      await axios.post(`/events/${eventId}/bookmark`, { userId });
+      await apiClient.post(`/events/${eventId}/bookmark`, { userId });
       refetchEvent();
     } catch (error) {
       alert('Failed to save event.');
@@ -94,7 +96,7 @@ const EventDetails = () => {
     if (!userId) return alert('Please log in to mark as interested.');
     setInterestedLoading(true);
     try {
-      await axios.post(`/events/${eventId}/interested`, { userId });
+      await apiClient.post(`/events/${eventId}/interested`, { userId });
       await refetchEvent();
     } catch (error) {
       alert('Failed to update interest.');

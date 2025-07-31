@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/axios';
 import '../styles/LocationFilter.css';
 
 const CategoryEvents = () => {
@@ -12,7 +12,7 @@ const CategoryEvents = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('/events/all-events');
+        const response = await apiClient.get('/events/all-events');
         setEvents(response.data);
       } catch (error) {
         console.error('Error fetching events:', error);

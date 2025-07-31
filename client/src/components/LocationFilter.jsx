@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LocationFilter.css';
-import axios from 'axios'; // Added axios import
+import apiClient from '../config/axios';
 
 const LocationFilter = ({ onLocationSelect, location, category, setLocation, setCategory, categories }) => {
   const [search, setSearch] = useState(location || '');
@@ -25,7 +25,7 @@ const LocationFilter = ({ onLocationSelect, location, category, setLocation, set
   };
 
   useEffect(() => {
-    axios.get('/events/all-events')
+    apiClient.get('/events/all-events')
       .then(response => {
         setEvents(Array.isArray(response.data) ? response.data : []);
       })
