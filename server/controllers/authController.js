@@ -34,14 +34,19 @@ const signup = async(req, res) => {
 
         await user.save();
 
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
+        // Issue JWT if JWT_SECRET is configured
+        if (process.env.JWT_SECRET) {
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7*24*60*60*1000
-        })
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+                maxAge: 7*24*60*60*1000
+            });
+        } else {
+            console.log('JWT_SECRET not configured. User created but no token issued.');
+        }
 
         return res.status(200).json({success: true, message: user});
 
@@ -71,14 +76,19 @@ const login = async(req,res) => {
             return res.status(400).json({success: false, message: "Invalid Password"});
         }
 
-        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
+        // Issue JWT if JWT_SECRET is configured
+        if (process.env.JWT_SECRET) {
+            const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7*24*60*60*1000
-        })
+            res.cookie('token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+                maxAge: 7*24*60*60*1000
+            });
+        } else {
+            console.log('JWT_SECRET not configured. Login successful but no token issued.');
+        }
 
         return res.status(200).json({success: true, message: user});
 

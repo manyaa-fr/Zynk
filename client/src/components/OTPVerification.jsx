@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from './OtpInput';
 import '../styles/OTPVerification.css';
-import API_BASE_URL from '../config/api';
+import apiClient from '../config/axios';
 
 const OTPVerification = () => {
     const navigate = useNavigate();
@@ -11,21 +11,19 @@ const OTPVerification = () => {
 
     const onOtpSubmit = async (enteredOtp) => {
         try {
-            const res = await fetch(`${API_BASE_URL}/auth/verify-otp`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ email, otp: enteredOtp }),
+            const res = await apiClient.post('/auth/verify-otp', { 
+                email, 
+                otp: enteredOtp 
             });
-            const data = await res.json();
-            if (res.ok) {
+            if (res.status === 200) {
               alert("OTP Verified Successfully!");
               navigate('/login');
             } else {
-              alert(data.error || "Invalid OTP");
+              alert(res.data.error || "Invalid OTP");
             }
         } catch (err) {
             console.error(err);
-            alert("Error verifying OTP");
+            alert(err.response?.data?.error || "Error verifying OTP");
         }
     };
 

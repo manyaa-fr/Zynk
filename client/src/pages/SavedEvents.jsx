@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, Calendar, MapPin, Clock, Filter, Search, Grid, List, Bookmark } from 'lucide-react';
-import axios from 'axios';
+import apiClient from '../config/axios';
+import { useNavigate } from 'react-router-dom';
 import '../styles/SavedEvents.css';
-import API_BASE_URL from '../config/api';
 
 // Function to get current user ID (similar to EventDetails.jsx)
 function getUserId() {
@@ -47,7 +47,7 @@ const SavedEventsPage = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`${API_BASE_URL}/events/saved/${userId}`);
+        const response = await apiClient.get(`/events/saved/${userId}`);
         setSavedEvents(response.data);
       } catch (error) {
         console.error('Error fetching saved events:', error);
@@ -57,7 +57,9 @@ const SavedEventsPage = () => {
       }
     };
 
-    fetchSavedEvents();
+    if (userId) {
+      fetchSavedEvents();
+    }
   }, [userId]);
 
   const categories = ['all', 'Music', 'Food & Drink', 'Business', 'Performing & Visual', 'Hobbies'];

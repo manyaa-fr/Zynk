@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import '../styles/LoginPage.css';
 import signupbg from '../assets/signupbg.mp4';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../config/axios';
 import OtpInput from '../components/OtpInput';
-import API_BASE_URL from '../config/api';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -22,7 +21,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials);
+      const response = await apiClient.post('/auth/login', credentials);
       if (response.status === 200){
         const { token, message } = response.data;
         localStorage.setItem("token", token);
@@ -46,7 +45,7 @@ const LoginPage = () => {
   const handleSendOtp = async () => {
     setOtpError('');
     try {
-      const res = await axios.post(`${API_BASE_URL}/auth/login-otp-request`, { email: otpEmail });
+      const res = await apiClient.post('/auth/login-otp-request', { email: otpEmail });
       if (res.data.success) {
         setOtpSent(true);
       } else {
@@ -71,7 +70,7 @@ const LoginPage = () => {
   const handleOtpVerify = async (enteredOtp) => {
     setOtpError('');
     try {
-      const res = await axios.post(`${API_BASE_URL}/auth/login-otp-verify`, { email: otpEmail, otp: enteredOtp });
+      const res = await apiClient.post('/auth/login-otp-verify', { email: otpEmail, otp: enteredOtp });
       if (res.data.success && res.data.token) {
         localStorage.setItem('token', res.data.token);
         // Decode userId from token

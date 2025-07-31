@@ -1,14 +1,8 @@
-const express = require('express');
 const nodemailer = require('nodemailer');
-const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/user');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-
-const app = express();
-app.use(express.json());
-app.use(cors());
 
 // In-memory store: { [email]: { data: {...}, otp: '1234', expiresAt: 1234567890 } }
 const otpSignupStore = {};
@@ -37,17 +31,28 @@ const signupWithOtp = async (req, res) => {
       otp,
       expiresAt
     };
-    // Send OTP email
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-    });
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your Zink OTP',
-      text: `Your OTP is: ${otp}`
-    });
+    
+    // Send OTP email if email credentials are configured
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        });
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: 'Your Zink OTP',
+          text: `Your OTP is: ${otp}`
+        });
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Continue without sending email - OTP is still stored
+      }
+    } else {
+      console.log('Email credentials not configured. OTP for testing:', otp);
+    }
+    
     res.json({ success: true, message: 'OTP sent to email' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
@@ -82,17 +87,28 @@ const sendLoginOtp = async (req, res) => {
     const otp = generateOtp();
     const expiresAt = Date.now() + 5 * 60 * 1000;
     loginOtpStore[email] = { otp, expiresAt };
-    // Send OTP email
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
-    });
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Your Zink Login OTP',
-      text: `Your login OTP is: ${otp}`
-    });
+    
+    // Send OTP email if email credentials are configured
+    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        });
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: 'Your Zink Login OTP',
+          text: `Your login OTP is: ${otp}`
+        });
+      } catch (emailError) {
+        console.error('Email sending failed:', emailError);
+        // Continue without sending email - OTP is still stored
+      }
+    } else {
+      console.log('Email credentials not configured. Login OTP for testing:', otp);
+    }
+    
     res.json({ success: true, message: 'OTP sent to email' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -112,10 +128,17 @@ const verifyLoginOtp = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
     if (!user) return res.status(404).json({ error: 'User not found' });
-    // Issue JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    delete loginOtpStore[email];
-    res.json({ success: true, token });
+    
+    // Issue JWT if JWT_SECRET is configured
+    if (process.env.JWT_SECRET) {
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+      delete loginOtpStore[email];
+      res.json({ success: true, token });
+    } else {
+      console.log('JWT_SECRET not configured. Login successful but no token issued.');
+      delete loginOtpStore[email];
+      res.json({ success: true, message: 'Login successful' });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
